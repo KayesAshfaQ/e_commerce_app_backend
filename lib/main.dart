@@ -1,3 +1,4 @@
+import 'package:amazon_clone/constants/global_variable.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: GlobalVariables.secondaryColor,
         ),
         useMaterial3: true,
       ),
