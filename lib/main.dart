@@ -1,7 +1,6 @@
 import 'package:amazon_clone/constants/global_variable.dart';
+import 'package:amazon_clone/route/router.dart';
 import 'package:flutter/material.dart';
-
-import 'home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +14,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        scaffoldBackgroundColor: GlobalVariables.backgroundColor,
         colorScheme: ColorScheme.fromSeed(
           seedColor: GlobalVariables.secondaryColor,
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      onGenerateRoute: generateRoute,
+      //home: const HomePage(),
     );
   }
 }
