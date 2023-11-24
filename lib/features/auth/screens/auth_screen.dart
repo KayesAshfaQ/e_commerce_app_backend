@@ -5,6 +5,8 @@ import '../../../common/widgets/app_button.dart';
 import '../../../common/widgets/app_text_field.dart';
 import '../widgets/radio_selection.dart';
 
+enum Auth { signIn, signUp }
+
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -13,6 +15,8 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  Auth _auth = Auth.signIn;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +32,24 @@ class _AuthScreenState extends State<AuthScreen> {
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 const SizedBox(height: 16),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     RadioSelectionWidget(
                       title: 'Sign In',
+                      value: Auth.signIn,
+                      groupValue: _auth,
+                      onChanged: (value) => setState(
+                        () => _auth = value!,
+                      ),
                     ),
                     RadioSelectionWidget(
                       title: 'Sign up',
+                      value: Auth.signUp,
+                      groupValue: _auth,
+                      onChanged: (value) => setState(
+                        () => _auth = value!,
+                      ),
                     ),
                   ],
                 ),
