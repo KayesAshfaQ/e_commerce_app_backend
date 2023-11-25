@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: GlobalVariables.backgroundColor,
         colorScheme: ColorScheme.fromSeed(
           seedColor: GlobalVariables.secondaryColor,
+          primary: GlobalVariables.secondaryColor,
         ),
         useMaterial3: true,
       ),

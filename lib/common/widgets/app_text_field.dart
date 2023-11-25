@@ -12,10 +12,11 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: TextField(
+      child: TextFormField(
         decoration: InputDecoration(
           label: Text(label),
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
+          isDense: true,
         ),
       ),
     );

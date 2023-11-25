@@ -15,6 +15,17 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  // from key
+  GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
+
+  // text editing controller
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+
+  // form type selection
   Auth _auth = Auth.signIn;
 
   @override
@@ -54,17 +65,85 @@ class _AuthScreenState extends State<AuthScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const TextFieldWidget(label: 'Email'),
-                const TextFieldWidget(label: 'Name'),
-                const TextFieldWidget(label: 'Password'),
-                const TextFieldWidget(label: 'Confirm Password'),
-                AppButtonWidget(
-                  label: 'Continue',
-                  onPressed: () {},
-                ),
+
+                // Sign In
+                if (_auth == Auth.signIn)
+                  SignUpFormWidget(
+                    formKey: _signUpFormKey,
+                  ),
+
+                // Sign Up
+                if (_auth == Auth.signUp)
+                  SignInFormWidget(formKey: _signInFormKey),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SignInFormWidget extends StatelessWidget {
+  const SignInFormWidget({
+    super.key,
+    required this.formKey,
+  });
+
+  final GlobalKey<FormState> formKey;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Form(
+        child: Column(
+          children: [
+            const TextFieldWidget(label: 'Email'),
+            const TextFieldWidget(label: 'Name'),
+            const TextFieldWidget(label: 'Password'),
+            const TextFieldWidget(label: 'Confirm Password'),
+            AppButtonWidget(
+              label: 'Continue',
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SignUpFormWidget extends StatelessWidget {
+  const SignUpFormWidget({
+    super.key,
+    required this.formKey,
+  });
+
+  final GlobalKey<FormState> formKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            TextFieldWidget(label: 'Email'),
+            TextFieldWidget(label: 'Password'),
+            AppButtonWidget(
+              label: 'Continue',
+              onPressed: () {},
+            ),
+          ],
         ),
       ),
     );
