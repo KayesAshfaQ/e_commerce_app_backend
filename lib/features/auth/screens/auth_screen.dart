@@ -1,4 +1,5 @@
 import 'package:amazon_clone/constants/global_variable.dart';
+import 'package:amazon_clone/route/route_path.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/widgets/app_button.dart';
@@ -8,6 +9,8 @@ import '../widgets/radio_selection.dart';
 enum Auth { signIn, signUp }
 
 class AuthScreen extends StatefulWidget {
+  static const String routeName = RoutePath.auth;
+
   const AuthScreen({super.key});
 
   @override
@@ -67,14 +70,16 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(height: 16),
 
                 // Sign In
-                if (_auth == Auth.signIn)
+                if (_auth == Auth.signUp)
                   SignUpFormWidget(
                     formKey: _signUpFormKey,
                   ),
 
                 // Sign Up
-                if (_auth == Auth.signUp)
-                  SignInFormWidget(formKey: _signInFormKey),
+                if (_auth == Auth.signIn)
+                  SignInFormWidget(
+                    formKey: _signInFormKey,
+                  ),
               ],
             ),
           ),
@@ -91,15 +96,17 @@ class SignInFormWidget extends StatelessWidget {
   });
 
   final GlobalKey<FormState> formKey;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Form(
+        key: formKey,
         child: Column(
           children: [
             const TextFieldWidget(label: 'Email'),
@@ -131,7 +138,7 @@ class SignUpFormWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Form(
         key: formKey,

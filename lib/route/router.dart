@@ -6,11 +6,11 @@ import '../features/auth/screens/auth_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case RoutePath.splash:
+    case SplashScreen.routeName:
       return MaterialPageRoute(
         builder: (_) => const SplashScreen(),
       );
-    case RoutePath.auth:
+    case AuthScreen.routeName:
       return MaterialPageRoute(
         builder: (_) => const AuthScreen(),
       );
