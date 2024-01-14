@@ -1,15 +1,33 @@
-console.log("Hello, Node!");
-
-// import express
+// IMPORTS FROM PACKAGES
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 
-// init server info
+// IMPORTS FROM FILES
+const authRouter = require("./routes/auth");
+
+// INIT MIDDLEWARE
+app.use(express.json()); // for parsing application/json
+app.use(authRouter);
+
+// INIT SERVER CONFIG
 const PORT = 3000;
 const IP = "0.0.0.0";
+const DB =
+  "mongodb+srv://asfak7074:Password123@cluster0.n9azne2.mongodb.net/?retryWrites=true&w=majority";
 
-// creating a server
-app.listen(PORT, function () {
+// INIT MONGODB
+mongoose
+  .connect(DB)
+  .then(() => {
+    console.log("mongodb connection established");
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+
+// INIT SERVER
+app.listen(PORT, IP, function () {
   console.log(`connection established at port ${PORT}`);
 });
 
