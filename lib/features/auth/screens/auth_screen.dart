@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:amazon_clone/constants/global_variable.dart';
+import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:amazon_clone/route/route_path.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +33,20 @@ class _AuthScreenState extends State<AuthScreen> {
 
   // form type selection
   Auth _auth = Auth.signIn;
+
+  // auth service
+  final AuthService _authService = AuthService();
+
+  void signupUser() {
+    // validate form
+    if (!_signUpFormKey.currentState!.validate()) return;
+    _authService.signupUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+      name: _nameController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +90,20 @@ class _AuthScreenState extends State<AuthScreen> {
                 if (_auth == Auth.signUp)
                   SignUpFormWidget(
                     formKey: _signUpFormKey,
+                    onPressed: signupUser,
+                    emailController: _emailController,
+                    nameController: _nameController,
+                    passwordController: _passwordController,
+                    confirmPasswordController: _confirmPasswordController,
                   ),
 
                 // Sign Up
                 if (_auth == Auth.signIn)
                   SignInFormWidget(
                     formKey: _signInFormKey,
+                    onPressed: () {},
+                    emailController: _emailController,
+                    passwordController: _passwordController,
                   ),
               ],
             ),
@@ -89,13 +114,23 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 }
 
-class SignInFormWidget extends StatelessWidget {
-  const SignInFormWidget({
+class SignUpFormWidget extends StatelessWidget {
+  const SignUpFormWidget({
     super.key,
     required this.formKey,
+    required this.onPressed,
+    required this.emailController,
+    required this.nameController,
+    required this.passwordController,
+    required this.confirmPasswordController,
   });
 
   final GlobalKey<FormState> formKey;
+  final VoidCallback onPressed;
+  final TextEditingController emailController,
+      nameController,
+      passwordController,
+      confirmPasswordController;
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +144,15 @@ class SignInFormWidget extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            const TextFieldWidget(label: 'Email'),
-            const TextFieldWidget(label: 'Name'),
-            const TextFieldWidget(label: 'Password'),
-            const TextFieldWidget(label: 'Confirm Password'),
+            TextFieldWidget(label: 'Email', controller: emailController),
+            TextFieldWidget(label: 'Name', controller: nameController),
+            TextFieldWidget(label: 'Password', controller: passwordController),
+            TextFieldWidget(
+                label: 'Confirm Password',
+                controller: confirmPasswordController),
             AppButtonWidget(
               label: 'Continue',
-              onPressed: () {},
+              onPressed: onPressed,
             ),
           ],
         ),
@@ -124,13 +161,18 @@ class SignInFormWidget extends StatelessWidget {
   }
 }
 
-class SignUpFormWidget extends StatelessWidget {
-  const SignUpFormWidget({
+class SignInFormWidget extends StatelessWidget {
+  const SignInFormWidget({
     super.key,
     required this.formKey,
+    required this.onPressed,
+    required this.emailController,
+    required this.passwordController,
   });
 
   final GlobalKey<FormState> formKey;
+  final VoidCallback onPressed;
+  final TextEditingController emailController, passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -144,11 +186,17 @@ class SignUpFormWidget extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            TextFieldWidget(label: 'Email'),
-            TextFieldWidget(label: 'Password'),
+            TextFieldWidget(
+              label: 'Email',
+              controller: emailController,
+            ),
+            TextFieldWidget(
+              label: 'Password',
+              controller: passwordController,
+            ),
             AppButtonWidget(
               label: 'Continue',
-              onPressed: () {},
+              onPressed: onPressed,
             ),
           ],
         ),

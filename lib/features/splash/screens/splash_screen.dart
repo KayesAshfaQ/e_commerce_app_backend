@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Navigator.pushNamed(context, AuthScreen.routeName);
               },
               child: const Text('Get Started'),
-            )
+            ),
           ],
         ),
       ),
