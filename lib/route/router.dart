@@ -1,5 +1,4 @@
 import 'package:amazon_clone/features/splash/screens/splash_screen.dart';
-import 'package:amazon_clone/route/route_path.dart';
 import 'package:flutter/material.dart';
 
 import '../features/auth/screens/auth_screen.dart';

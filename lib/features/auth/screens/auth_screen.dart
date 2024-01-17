@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:amazon_clone/constants/global_variable.dart';
 import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:amazon_clone/route/route_path.dart';
@@ -22,14 +20,18 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   // from key
-  GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
 
-  // text editing controller
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  // signup text editing controller
+  final _signUpNameController = TextEditingController();
+  final _signUpMailController = TextEditingController();
+  final _signUpPassController = TextEditingController();
+  final _signUpConfPassController = TextEditingController();
+
+  // signin text editing controller
+  final _signInMailController = TextEditingController();
+  final _signInPassController = TextEditingController();
 
   // form type selection
   Auth _auth = Auth.signIn;
@@ -37,15 +39,41 @@ class _AuthScreenState extends State<AuthScreen> {
   // auth service
   final AuthService _authService = AuthService();
 
-  void signupUser() {
+  void _signupUser() {
     // validate form
     if (!_signUpFormKey.currentState!.validate()) return;
+
+    // close keyboard
+
+    // show loading dialog
+
+    // signup user
     _authService.signupUser(
       context: context,
-      email: _emailController.text,
-      password: _passwordController.text,
-      name: _nameController.text,
+      email: _signUpMailController.text,
+      password: _signUpPassController.text,
+      name: _signUpNameController.text,
     );
+
+    // close loading dialog
+  }
+
+  void _signInUser() {
+    // validate form
+    if (!_signInFormKey.currentState!.validate()) return;
+
+    // close keyboard
+
+    // show loading dialog
+
+    // signIn user
+    // _authService.signInUser(
+    //   context: context,
+    //   email: _signInEmailController.text,
+    //   password: _signInPasswordController.text,
+    // );
+
+    // close loading dialog
   }
 
   @override
@@ -86,24 +114,24 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Sign In
+                // Sign Up
                 if (_auth == Auth.signUp)
                   SignUpFormWidget(
                     formKey: _signUpFormKey,
-                    onPressed: signupUser,
-                    emailController: _emailController,
-                    nameController: _nameController,
-                    passwordController: _passwordController,
-                    confirmPasswordController: _confirmPasswordController,
+                    onPressed: _signupUser,
+                    emailController: _signUpMailController,
+                    nameController: _signUpNameController,
+                    passwordController: _signUpPassController,
+                    confirmPasswordController: _signUpConfPassController,
                   ),
 
-                // Sign Up
+                // Sign In
                 if (_auth == Auth.signIn)
                   SignInFormWidget(
                     formKey: _signInFormKey,
-                    onPressed: () {},
-                    emailController: _emailController,
-                    passwordController: _passwordController,
+                    onPressed: _signInUser,
+                    emailController: _signInMailController,
+                    passwordController: _signInPassController,
                   ),
               ],
             ),
@@ -115,6 +143,7 @@ class _AuthScreenState extends State<AuthScreen> {
 }
 
 class SignUpFormWidget extends StatelessWidget {
+  /// sign up form widget
   const SignUpFormWidget({
     super.key,
     required this.formKey,
@@ -127,10 +156,7 @@ class SignUpFormWidget extends StatelessWidget {
 
   final GlobalKey<FormState> formKey;
   final VoidCallback onPressed;
-  final TextEditingController emailController,
-      nameController,
-      passwordController,
-      confirmPasswordController;
+  final TextEditingController emailController, nameController, passwordController, confirmPasswordController;
 
   @override
   Widget build(BuildContext context) {
@@ -147,9 +173,7 @@ class SignUpFormWidget extends StatelessWidget {
             TextFieldWidget(label: 'Email', controller: emailController),
             TextFieldWidget(label: 'Name', controller: nameController),
             TextFieldWidget(label: 'Password', controller: passwordController),
-            TextFieldWidget(
-                label: 'Confirm Password',
-                controller: confirmPasswordController),
+            TextFieldWidget(label: 'Confirm Password', controller: confirmPasswordController),
             AppButtonWidget(
               label: 'Continue',
               onPressed: onPressed,
@@ -162,6 +186,7 @@ class SignUpFormWidget extends StatelessWidget {
 }
 
 class SignInFormWidget extends StatelessWidget {
+  /// sign in form widget
   const SignInFormWidget({
     super.key,
     required this.formKey,
