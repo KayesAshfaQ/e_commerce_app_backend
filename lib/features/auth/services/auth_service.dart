@@ -22,7 +22,6 @@ class AuthService {
         password: password,
         address: '',
         type: '',
-        token: '',
       );
       // send request to server
       http.Response res = await http.post(
@@ -37,10 +36,51 @@ class AuthService {
           response: res,
           context: context,
           onSuccess: () {
+            showSnackBar(context: context, message: 'Account successfully created', color: Colors.green);
+          });
+
+      // store user data in shared preferences
+    } catch (e) {
+      // handle error
+      debugPrint(e.toString());
+      // ignore: use_build_context_synchronously
+      showSnackBar(context: context, message: e.toString(), color: Colors.red);
+    }
+  }
+
+  /// sign in with email and password
+  void signinUser({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      User user = User(
+        id: '',
+        name: '',
+        email: email,
+        password: password,
+        address: '',
+        type: '',
+      );
+      // send request to server
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/login'),
+        body: user.toJson(),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      );
+
+      debugPrint('${res.statusCode}');
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
             showSnackBar(
-                context: context,
-                message: 'Account successfully created',
-                color: Colors.green);
+              context: context,
+              message: 'successfully logged in',
+              color: Colors.green,
+            );
           });
 
       // store user data in shared preferences

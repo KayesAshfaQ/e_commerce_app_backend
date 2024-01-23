@@ -31,6 +31,4 @@ now run using : npm run dev
 to activate 'npm start' command add this in script
 "start": "node ./index.js"
 
-// next from ::: 1:10:00
-
 to install all packages from package.json file : npm i or npm install

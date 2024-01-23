@@ -67,11 +67,11 @@ class _AuthScreenState extends State<AuthScreen> {
     // show loading dialog
 
     // signIn user
-    // _authService.signInUser(
-    //   context: context,
-    //   email: _signInEmailController.text,
-    //   password: _signInPasswordController.text,
-    // );
+    _authService.signinUser(
+      context: context,
+      email: _signInMailController.text,
+      password: _signInPassController.text,
+    );
 
     // close loading dialog
   }

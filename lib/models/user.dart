@@ -1,22 +1,21 @@
 import 'dart:convert';
 
 class User {
-  final String id;
-  final String name;
-  final String email;
-  final String password;
-  final String address;
-  final String type;
-  final String token;
+  String? id;
+  String? name;
+  String? email;
+  String? password;
+  String? address;
+  String? type;
 
-  User(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required this.password,
-      required this.address,
-      required this.type,
-      required this.token});
+  User({
+    this.id,
+    this.name,
+    this.email,
+    this.password,
+    this.address,
+    this.type,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -26,24 +25,21 @@ class User {
       'password': password,
       'address': address,
       'type': type,
-      'token': token,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      email: map['email'] as String,
-      password: map['password'] as String,
-      address: map['address'] as String,
-      type: map['type'] as String,
-      token: map['token'] as String,
+      id: map['id'] != null ? map['id'] as String : null,
+      name: map['name'] != null ? map['name'] as String : null,
+      email: map['email'] != null ? map['email'] as String : null,
+      password: map['password'] != null ? map['password'] as String : null,
+      address: map['address'] != null ? map['address'] as String : null,
+      type: map['type'] != null ? map['type'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
 }
