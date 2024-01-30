@@ -64,7 +64,7 @@ authRouter.post("/api/login", async (req, res) => {
 
     // generate token
     const token = jwt.sign({ id: user._id }, "passwordKey", {
-      expiresIn: "1h",
+      expiresIn: "6h",
     });
 
     // return response to client
