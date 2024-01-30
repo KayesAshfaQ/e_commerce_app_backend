@@ -1,7 +1,9 @@
 const express = require("express");
-const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+const User = require("../models/user");
+const auth = require("../middlewares/auth");
 
 const authRouter = express.Router();
 
@@ -82,7 +84,6 @@ authRouter.post("/api/login", async (req, res) => {
   }
 });
 
-
 // VERIFY TOKEN API
 authRouter.get("/tokenIsValid", async (req, res) => {
   try {
@@ -101,6 +102,18 @@ authRouter.get("/tokenIsValid", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// GET USER DATA API
+authRouter.get("/", auth, async (req, res) => {
+  const user = await User.findById(req.user);
+  //res.json({ ...user._doc, token: req.token });
+  res.json({
+    name: user.name,
+    email: user.email,
+    address: user.address,
+    type: user.type,
+  });
 });
 
 module.exports = authRouter;
