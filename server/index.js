@@ -6,11 +6,13 @@ const mongoose = require("mongoose");
 // IMPORTS FROM FILES
 const authRouter = require("./routes/auth");
 const adminRouter = require("./routes/admin");
+const productRouter = require("./routes/product");
 
 // INIT MIDDLEWARE
 app.use(express.json()); // for parsing application/json
 app.use(authRouter);
 app.use(adminRouter);
+app.use(productRouter);
 
 // INIT SERVER CONFIG
 const PORT = 3000;

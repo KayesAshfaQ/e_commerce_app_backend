@@ -32,3 +32,15 @@ to activate 'npm start' command add this in script
 "start": "node ./index.js"
 
 to install all packages from package.json file : npm i or npm install
+
+### create a simple api
+
+step 1 : create a route
+    step 1.1 : inside routes folder create a file
+    step 1.2 : import express
+    step 1.3 : create a router
+    step 1.4 : export the router
+
+step 2 : configure the route in the index.js file
+    step 2.1 : import the route file
+    step 2.2 : initialize the middleware for the route
