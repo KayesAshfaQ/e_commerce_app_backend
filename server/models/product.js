@@ -29,7 +29,18 @@ const productSchema = mongoose.Schema({
     required: true,
     type: String,
   },
-  // rating
+  ratings: [
+    { 
+      userId: { 
+        type: String, 
+        required: true,
+      }, 
+      rating: {
+        required: true,
+        type: Number, 
+      }
+    },
+  ],
 });
 
 const Product = mongoose.model("Product", productSchema);
