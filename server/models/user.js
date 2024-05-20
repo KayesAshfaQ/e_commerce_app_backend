@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const cartSchema = require("./cart");
 
 const userSchema = mongoose.Schema({
   name: {
@@ -38,8 +39,10 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "user",
   },
+  cart: [
+    cartSchema,
+  ],
 });
 
 const User = mongoose.model("User", userSchema);
-
 module.exports = User;
