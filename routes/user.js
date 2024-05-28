@@ -3,7 +3,7 @@ const express = require("express");
 const userRouter = express.Router();
 const auth = require("../middlewares/auth");
 const User = require("../models/user");
-const { Product } = require("../models/Product");
+const { Product } = require("../models/product");
 
 // add product on cart
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
