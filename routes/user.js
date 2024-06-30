@@ -3,7 +3,7 @@ const express = require("express");
 const userRouter = express.Router();
 const auth = require("../middlewares/auth");
 const User = require("../models/user");
-const { Product } = require("../models/Product");
+const { Product } = require("../models/product");
 
 // add product on cart
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
@@ -18,7 +18,7 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
       // flag to check if product is already exist in the cart
       let isProductExist = false;
       for (let i = 0; i < user.cart.length; i++) {
-        // if product is already exist by comparing the product id with the cart products id
+        // if product is already exist by comparing the product id with the cart products id, increase quantity
         if (user.cart[i].product._id.equals(product._id)) {
           user.cart[i].quantity += 1;
           isProductExist = true;

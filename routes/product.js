@@ -2,7 +2,7 @@ const express = require("express");
 
 
 const auth = require("../middlewares/auth");
-const { Product } = require("../models/Product");
+const { Product } = require("../models/product");
 
 const productRouter = express.Router();
 
@@ -62,7 +62,7 @@ productRouter.post("/api/products/rate", auth, async (req, res) => {
       rating,
     };
 
-    // add the rating to the product and save it
+    // add the rating to the product ratings and save it
     product.ratings.push(ratingObj);
     product = await product.save();
 
@@ -76,8 +76,11 @@ productRouter.post("/api/products/rate", auth, async (req, res) => {
 // deal of the day (highest rated product)
 productRouter.get("/api/deal-of-the-day", auth, async (req, res) => {
   try {
+
+    // fetch all the products
     let product = await Product.find({});
 
+    // sort products based on their ratings
     product.sort((a, b) => {
       let aSum = 0;
       let bSum = 0;
@@ -90,9 +93,10 @@ productRouter.get("/api/deal-of-the-day", auth, async (req, res) => {
         bSum += b.ratings[i].rating;
       }
 
-      return aSum < bSum ? 1 : -1;
+      return aSum > bSum ? -1 : 1;
     });
 
+    // return the highest ratted product (first item of sorted product) 
     res.json(product[0]);
   } catch (e) {
     res.status(500).json({ error: e.message });

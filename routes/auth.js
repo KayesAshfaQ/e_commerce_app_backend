@@ -23,7 +23,7 @@ authRouter.post("/api/signup", async (req, res) => {
     // hash the password
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    // post the data in db
+    // save the data in db
     let user = new User({ name, email, password: hashedPassword });
     user = await user.save();
 
@@ -57,8 +57,8 @@ authRouter.post("/api/login", async (req, res) => {
     }
 
     // check if password matches with the user's password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    const isPassMatch = await bcrypt.compare(password, user.password);
+    if (!isPassMatch) {
       return res.status(400).json({ message: "invalid credentials" });
     }
 
@@ -106,14 +106,26 @@ authRouter.get("/tokenIsValid", async (req, res) => {
 
 // GET USER DATA API
 authRouter.get("/", auth, async (req, res) => {
-  const user = await User.findById(req.user);
-  //res.json({ ...user._doc, token: req.token });
-  res.json({
-    name: user.name,
-    email: user.email,
-    address: user.address,
-    type: user.type,
-  });
+  try{
+
+    // find the user data
+    const user = await User.findById(req.user);
+
+    // if user data not available
+    if (!user) {
+      return res.status(400).json({ message: "user does not exist" });
+    }
+
+    //res.json({ ...user._doc, token: req.token });
+    return res.json({
+      name: user.name,
+      email: user.email,
+      address: user.address,
+      type: user.type,
+    });
+  }catch(error){
+    res.status(500).json({error: error.message});
+  }
 });
 
 module.exports = authRouter;
