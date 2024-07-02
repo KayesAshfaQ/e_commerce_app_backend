@@ -104,28 +104,4 @@ authRouter.get("/tokenIsValid", async (req, res) => {
   }
 });
 
-// GET USER DATA API
-authRouter.get("/", auth, async (req, res) => {
-  try{
-
-    // find the user data
-    const user = await User.findById(req.user);
-
-    // if user data not available
-    if (!user) {
-      return res.status(400).json({ message: "user does not exist" });
-    }
-
-    //res.json({ ...user._doc, token: req.token });
-    return res.json({
-      name: user.name,
-      email: user.email,
-      address: user.address,
-      type: user.type,
-    });
-  }catch(error){
-    res.status(500).json({error: error.message});
-  }
-});
-
 module.exports = authRouter;
