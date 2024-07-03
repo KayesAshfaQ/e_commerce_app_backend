@@ -44,3 +44,7 @@ step 1 : create a route
 step 2 : configure the route in the index.js file
     step 2.1 : import the route file
     step 2.2 : initialize the middleware for the route
+
+### Timeline
+
+- 9h 48m

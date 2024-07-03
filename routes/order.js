@@ -24,6 +24,8 @@ orderRouter.post("/api/create-order", auth, async (req, res) => {
       }
     }
 
+    // TODO: clear the cart of the user
+
     const order = new Order({
       user: req.user,
       products: products,
