@@ -8,13 +8,13 @@ const adminRouter = express.Router();
 // add new products
 adminRouter.post("/admin/add-product", admin, async (req, res) => {
   try {
-    const { name, description, images, quantity, price, category } = req.body;
+    const { name, description, images, stock, price, category } = req.body;
 
     let product = new Product({
       name,
       description,
       images,
-      quantity,
+      stock,
       price,
       category,
     });
