@@ -11,6 +11,8 @@ adminRouter.post("/admin/add-product", admin, async (req, res) => {
   try {
     const { name, description, images, stock, price, category } = req.body;
 
+    // TODO: create multipart form data for images and upload them to cloudinary and get the urls back
+
     let product = new Product({
       name,
       description,
@@ -99,6 +101,8 @@ adminRouter.post("/admin/update-order-status", admin, async (req, res) => {
   }
 });
 
+// TODO: create product related analytics api
+
 // analytics
 adminRouter.get("/admin/orders-analytics", admin, async (req, res) => {
   try {
@@ -109,6 +113,8 @@ adminRouter.get("/admin/orders-analytics", admin, async (req, res) => {
     let totalPendingOrders = 0;
     let totalCancelledOrders = 0;
     let totalEarnings = 0;
+
+    // TODO: fetch category wise earnings
 
     for (let i = 0; i < orders.length; i++) {
       switch (orders[i].status.toString().toLowerCase()) {
