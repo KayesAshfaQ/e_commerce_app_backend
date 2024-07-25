@@ -3,6 +3,7 @@ const express = require("express");
 const userRouter = express.Router();
 const auth = require("../middlewares/auth");
 const User = require("../models/user");
+const Order = require("../models/order");
 const { Product } = require("../models/product");
 
 // GET USER DATA API
@@ -116,7 +117,6 @@ userRouter.patch("/api/update-cart-quantity", auth, async (req, res) => {
     for (var i = 0; i < user.cart.length; i++) {
       // check if the product id is equal to the user cart product id
       if (user.cart[i].product._id.equals(product._id)) {
-
         // check if the requested quantity is more than the available stock
         if (product.stock < quantity) {
           return res.status(400).json({ message: "Insufficient stock" });
@@ -140,7 +140,16 @@ userRouter.patch("/api/update-cart-quantity", auth, async (req, res) => {
       message: "Product quantity has been updated",
       data: user.cart,
     });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
+// get all user orders
+userRouter.get("/api/orders/me", auth, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user });
+    res.status(200).json(orders);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

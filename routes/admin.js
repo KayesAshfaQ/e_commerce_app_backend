@@ -2,6 +2,7 @@ const express = require("express");
 
 const admin = require("../middlewares/admin");
 const { Product } = require("../models/product");
+const Order = require("../models/order");
 
 const adminRouter = express.Router();
 
@@ -59,6 +60,38 @@ adminRouter.delete("/admin/delete-product/:id", admin, async (req, res) => {
         id: product.id,
         name: product.name,
         category: product.category,
+      },
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// get all orders
+adminRouter.get("/admin/all-orders", admin, async (req, res) => {
+  try {
+    const orders = await Order.find({});
+
+    res.json(orders);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// update order status by id
+adminRouter.post("/admin/update-order-status", admin, async (req, res) => {
+  try {
+    const { id, status } = req.body;
+
+    let order = await Order.findById(id);
+    order.status = status;
+    order = await order.save();
+
+    res.status(201).json({
+      message: "Order status updated successfully",
+      order: {
+        id: order.id,
+        status: order.status,
       },
     });
   } catch (e) {
