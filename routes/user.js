@@ -116,6 +116,12 @@ userRouter.patch("/api/update-cart-quantity", auth, async (req, res) => {
     for (var i = 0; i < user.cart.length; i++) {
       // check if the product id is equal to the user cart product id
       if (user.cart[i].product._id.equals(product._id)) {
+
+        // check if the requested quantity is more than the available stock
+        if (product.stock < quantity) {
+          return res.status(400).json({ message: "Insufficient stock" });
+        }
+
         // update the product quantity
         user.cart[i].quantity = quantity;
         break;

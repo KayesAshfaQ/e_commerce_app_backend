@@ -1,8 +1,6 @@
 const express = require("express");
 const orderRouter = express.Router();
 
-const mongoose = require("mongoose");
-
 const auth = require("../middlewares/auth");
 const Order = require("../models/order");
 const User = require("../models/user");
@@ -17,15 +15,16 @@ orderRouter.post("/api/create-order", auth, async (req, res) => {
     for (let i = 0; i < products.length; i++) {
       const product = await Product.findById(products[i].id);
       if (product.stock < products[i].quantity) {
-        return res.status(400).json({ message: "stock is not enough" });
+        return res
+          .status(400)
+          .json({ message: `${product.name} is out of stock!` });
       } else {
         product.stock -= products[i].quantity;
         await product.save();
       }
     }
 
-    // TODO: clear the cart of the user
-
+    // create order
     const order = new Order({
       user: req.user,
       products: products,
@@ -35,6 +34,11 @@ orderRouter.post("/api/create-order", auth, async (req, res) => {
 
     // save the order
     await order.save();
+
+    // clear the cart of the user
+    let user = await User.findById(req.user);
+    user.cart = [];
+    await user.save();
 
     // send the response
     return res
