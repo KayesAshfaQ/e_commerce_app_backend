@@ -99,4 +99,47 @@ adminRouter.post("/admin/update-order-status", admin, async (req, res) => {
   }
 });
 
+// analytics
+adminRouter.get("/admin/orders-analytics", admin, async (req, res) => {
+  try {
+    const orders = await Order.find({});
+
+    let totalOrders = orders.length;
+    let totalDeliveredOrders = 0;
+    let totalPendingOrders = 0;
+    let totalCancelledOrders = 0;
+    let totalEarnings = 0;
+
+    for (let i = 0; i < orders.length; i++) {
+      switch (orders[i].status.toString().toLowerCase()) {
+        case "pending": {
+          totalPendingOrders++;
+          break;
+        }
+        case "delivered": {
+          totalDeliveredOrders++;
+
+          // earnings form the orders are completed
+          totalEarnings += orders[i].totalPrice;
+          break;
+        }
+        case "cancelled": {
+          totalCancelledOrders++;
+          break;
+        }
+      }
+    }
+
+    res.status(200).json({
+      totalOrders,
+      totalDeliveredOrders,
+      totalPendingOrders,
+      totalCancelledOrders,
+      totalEarnings,
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = adminRouter;

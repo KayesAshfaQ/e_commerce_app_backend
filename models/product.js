@@ -26,6 +26,7 @@ const productSchema = mongoose.Schema({
     required: true,
     type: Number,
   },
+  // TODO: create a category schema and use it here
   category: {
     required: true,
     type: String,
